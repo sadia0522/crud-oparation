@@ -10,7 +10,4 @@ const ProductSchema = new mongoose.Schema({
         type: String
   },
 });
-const Product = mongoose.model('Product', ProductSchema);
-
-module.exports = Product; 
- console.log('ami tumake valobasi')
+module.exports = mongoose.model('Product', ProductSchema);
