@@ -1,4 +1,4 @@
-const Product= require("./product.model");
+const Product = require("./product.model");
 
 const createProduct = async (req, res) => {
   try {
@@ -29,11 +29,7 @@ const updateProduct = async (req, res) => {
     const { id } = req.params;
     const { name, price } = req.body;
 
-    const updatedProduct = await Product.findByIdAndUpdate(
-      id,
-      { name, price },
-      { new: true }
-    );
+    const updatedProduct = await Product.findByIdAndUpdate(id, { name, price });
 
     if (!updatedProduct) {
       return res.status(404).json({ message: "Product not found!" });
@@ -48,6 +44,22 @@ const updateProduct = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+const deleteProduct = async (req, res) => {
+  try {
+    const { name } = req.params;
+    const deletedProduct = await Product.findOneAndDelete({ name });
+    if (!deletedProduct) {
+      res.json({ message: "product not found!" });
+    }
 
+    res.json({
+      message: "product deleted successfully",
+      product: deletedProduct,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
-module.exports = { createProduct , findProduct, updateProduct };
+module.exports = { createProduct, findProduct, updateProduct, deleteProduct };

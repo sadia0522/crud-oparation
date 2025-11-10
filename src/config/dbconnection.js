@@ -1,15 +1,12 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv').config();
+const mongoose = require("mongoose");
+const { MONGOOSE_URI } = require("./envConfig");
 
-const connectionDB = async function() {
-    try {
-        mongoose.connect(process.env.MONGOOSE_URI);
-        console.log('mongoose connected sucessfully');
-        
-        
-    } catch (error) {
-        console.error('there is an server side error');
-        
-    }
+const connectionDB = async function () {
+  try {
+    await mongoose.connect(MONGOOSE_URI);
+    console.log("mongoose connected sucessfully");
+  } catch (error) {
+    console.error("there is an server side error");
+  }
 };
 module.exports = connectionDB;

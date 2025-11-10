@@ -2,6 +2,7 @@ const express = require('express');
 const connectionDB = require('./src/config/dbconnection')
 const app = express();
 const appRoute = require('./app');
+const {PORT} = require('./src/config/envConfig');
 
 app.use(express.json());
 
@@ -9,11 +10,11 @@ connectionDB();
 
 app.use('/api',appRoute);
 
-port = process.env.PORT || 5000;
 
-app.listen(port,() => {
+
+app.listen(PORT , () => {
     try { 
-        console.log(`server is running on port ${port}`);
+        console.log(`server is running on port ${PORT}`);
         
     } catch (error) {
         console.error("error");
