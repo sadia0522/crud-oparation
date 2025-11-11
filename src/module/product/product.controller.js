@@ -28,6 +28,8 @@ const findProductcontroller = async ( req,res) => {
 };
 const updateProductcontroller = async (req,res) => {
   try {
+    const {id} = req.params;
+    const {name, price} = req.body;
     const updateProduct = await updatedProductService(id, name ,price);
     if (!updatedProductService) {
       return res.status(404).json({message: "update failed product not found !"});
