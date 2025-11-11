@@ -1,65 +1,67 @@
-const Product = require("./product.model");
+const {createProductService, findProductService, updatedProductService,deleteProductService} = require('./product.service');
 
-const createProduct = async (req, res) => {
+const createProductcontroller = async (req,res) =>{
   try {
-    const { name, price } = req.body;
-    const newProduct = await Product.create({ name, price });
+    const {name,price} = req.body;
+    const newProduct = await createProductService(name,price);
     res.status(201).json({
-      message: "Product created successfully",
-      product: newProduct,
+      message:'new product created seccessfully',
+      product:newProduct,
     });
+    
   } catch (error) {
-    res.status(500).json({
-      message: "product create faild !",
-    });
+    res.status(500).json({ message: ' product creation  failed !'});
+    
   }
+  
 };
-const findProduct = async (req, res) => {
+const findProductcontroller = async ( req,res) => {
   try {
-    const product = await Product.find();
-    res.json(product);
+    const findProduct = await findProductService();
+    res.status(201).json({findProduct});
+    
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "server error" });
+    res.status(500).json({message: " product not found"})
+    
   }
+ 
 };
-
-const updateProduct = async (req, res) => {
+const updateProductcontroller = async (req,res) => {
   try {
-    const { id } = req.params;
-    const { name, price } = req.body;
-
-    const updatedProduct = await Product.findByIdAndUpdate(id, { name, price });
-
-    if (!updatedProduct) {
-      return res.status(404).json({ message: "Product not found!" });
+    const updateProduct = await updatedProductService(id, name ,price);
+    if (!updatedProductService) {
+      return res.status(404).json({message: "update failed product not found !"});
     }
-
-    res.status(200).json({
-      message: "Product updated successfully!",
-      product: updatedProduct,
+      res.json({message: 'product updated successfully',
+      product: updateProduct,
     });
+  
+  
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({message: 'server error'});
+
+    
   }
+
 };
-const deleteProduct = async (req, res) => {
+const deleteProductcontroller = async (req,res) => {
   try {
-    const { name } = req.params;
-    const deletedProduct = await Product.findOneAndDelete({ name });
-    if (!deletedProduct) {
-      res.json({ message: "product not found!" });
-    }
+    const {id} = req.params;
+    const deleteProduct = await deleteProductService(id);
+    if (!deleteProduct){
+      return res.status(404).json({message: 'product not found !'});
 
-    res.json({
-      message: "product deleted successfully",
-      product: deletedProduct,
+    }
+    res.status(200).json({message: ' product Deleted successfully',
+      product:deleteProduct,
     });
+    
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({message: 'server error'});
+    
   }
+
 };
 
-module.exports = { createProduct, findProduct, updateProduct, deleteProduct };
+module.exports = { createProductcontroller, findProductcontroller, updateProductcontroller, deleteProductcontroller };
+ 
